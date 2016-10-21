@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jdkcc.ts.dal.mapper.JUserMapper">
+    <resultMap id="BaseResultMap" type="com.jdkcc.ts.dal.entities.JUser">
+        <id     column="ID"             property="id"               jdbcType="BIGINT"/>
+        <result column="OPENID"         property="openid"           jdbcType="VARCHAR"/>
+        <result column="NICKNAME"       property="nickname"       jdbcType="TIMESTAMP"/>
+        <result column="GENDER"         property="gender"           jdbcType="VARCHAR"/>
+        <result column="CITY"           property="city"             jdbcType="VARCHAR"/>
+        <result column="SUBSCRIBE_TIME" property="subscribeTime"    jdbcType="TIMESTAMP"/>
+        <result column="HEADIMGURL"     property="headimgurl"       jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        ID,
+        OPENID,
+        NICKNAME,
+        GENDER,
+        CITY,
+        SUBSCRIBE_TIME,
+        HEADIMGURL
+    </sql>
+
+    <insert id="insert" parameterType="com.jdkcc.ts.dal.entities.JUser">
+        INSERT INTO J_USER (
+        OPENID,
+        NICKNAME,
+        GENDER,
+        CITY,
+        SUBSCRIBE_TIME,
+        HEADIMGURL)
+        VALUES (
+        #{openid,jdbcType=VARCHAR},
+        #{nickname,jdbcType=VARCHAR},
+        #{city,jdbcType=VARCHAR},
+        #{subscribeTime,jdbcType=TIMESTAMP},
+        #{headimgurl,jdbcType=VARCHAR},
+        #{gender,jdbcType=VARCHAR})
+    </insert>
+
+    <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        J_USER
+        WHERE
+        ID = #{id,jdbcType=BIGINT}
+    </select>
+</mapper>
