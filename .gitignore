@@ -6,7 +6,7 @@
 *.DS_Store
 *.swp
 *.out
-target/
+/**/target/
 *.iml
 *.ipr
 *.iws

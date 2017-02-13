@@ -42,7 +42,8 @@ public class TsAspect {
      */
     public static String TRACE_LOG_ID = "TRACE_LOG_ID";
 
-    @Around("execution(public com.jdkcc.ts.service.dto.response.Response com.jdkcc.ts.web.controller.*.*(..))")
+    @Around("execution(public com.jdkcc.ts.service.dto.response.Response" +
+            " com.jdkcc.ts.web.controller.*.*(..))")
     public Response serviceAccess(ProceedingJoinPoint joinPoint) {
         //计时
         StopWatch stopwatch = new StopWatch();

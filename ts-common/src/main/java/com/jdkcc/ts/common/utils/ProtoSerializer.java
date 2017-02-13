@@ -15,9 +15,9 @@ import io.protostuff.runtime.RuntimeSchema;
  * @version Id: ProtoSerializer.java, v 0.1 2016/9/20 0020 上午 11:18 FancyKong Exp $$
  */
 public class ProtoSerializer {
-    public static <T> byte[] obj2Bytes(T obj, Class<T> clazz) {
+    public static <T> byte[] obj2Bytes(T obj) {
         Schema<T> schema = RuntimeSchema
-                .getSchema(clazz);
+                .getSchema((Class<T>) obj.getClass());
         LinkedBuffer buffer = LinkedBuffer.allocate(4096);
         byte[] protostuff = null;
         try {
@@ -54,18 +54,13 @@ public class ProtoSerializer {
         System.out.println(studentString);*/
         //long start = System.nanoTime();
         final StringBuffer stringBuffer = new StringBuffer();
-        stringBuffer.append("dfad");
         for(int i = 0 ; i <15000;i++){
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    stringBuffer.append("dfad");
-                }
-            }).start();
+            new Thread(() -> stringBuffer.append("dfad")).start();
         }
-        StringBuilder stringBuilder = new StringBuilder();
+
+        final StringBuilder stringBuilder = new StringBuilder();
         for(int i = 0 ; i <15000;i++){
-            new Thread(() -> stringBuilder.append("hello")).start();
+            new Thread(() -> stringBuilder.append("hell")).start();
         }
         Thread.sleep(10000);
         System.out.println(stringBuffer.length());
