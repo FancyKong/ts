@@ -16,7 +16,7 @@ import java.util.Date;
  */
 public class TraceLogIdConverter extends ClassicConverter {
 
-    static final String TRACE_LOG_ID = "TRACE_LOG_ID";
+    public static final String TRACE_LOG_ID = "trace_log_id";
 
     @Override
     public String convert(ILoggingEvent iLoggingEvent) {

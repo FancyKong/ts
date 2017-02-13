@@ -7,6 +7,7 @@ package com.jdkcc.ts.web.aop;
 import com.google.common.base.Throwables;
 import com.jdkcc.ts.common.enums.ErrorCode;
 import com.jdkcc.ts.common.exceptions.ServiceException;
+import com.jdkcc.ts.common.utils.TraceLogIdConverter;
 import com.jdkcc.ts.service.dto.response.Response;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -40,7 +41,7 @@ public class TsAspect {
     /**
      * 日志跟踪id
      */
-    public static String TRACE_LOG_ID = "TRACE_LOG_ID";
+    private static final String TRACE_LOG_ID = TraceLogIdConverter.TRACE_LOG_ID;
 
     @Around("execution(public com.jdkcc.ts.service.dto.response.Response" +
             " com.jdkcc.ts.web.controller.*.*(..))")
