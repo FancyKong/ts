@@ -39,7 +39,7 @@ public class ProtoSerializerForKafka<T> implements Serializer<T>,Deserializer<T>
     public byte[] serialize(String topic, T data) {
         if(data == null)
             return null;
-        else return ProtoSerializer.obj2Bytes(data,clazz);
+        else return ProtoSerializer.obj2Bytes(data);
     }
 
     @Override
