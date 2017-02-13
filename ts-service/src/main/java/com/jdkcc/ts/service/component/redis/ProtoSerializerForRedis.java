@@ -28,7 +28,7 @@ public class ProtoSerializerForRedis<T> implements RedisSerializer<T> {
     @Override
     public byte[] serialize(T t) throws SerializationException {
         if(t == null) return null;
-        return ProtoSerializer.obj2Bytes(t, clazz);
+        return ProtoSerializer.obj2Bytes(t);
     }
 
     @Override
