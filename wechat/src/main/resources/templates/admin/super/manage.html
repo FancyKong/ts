@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro"
+      layout:decorate="layout">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Cherish">
+    <title>权限管理</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <!--body wrapper start-->
+    <div class="wrapper">
+
+        <div class="row">
+            <div class="col-xs-12 col-md-6">
+                <section class="panel">
+                    <header class="panel-heading">
+                        用户关联角色
+                        <span class="tools pull-right">
+                                <a class="fa fa-chevron-down" href="javascript:;"></a>
+                                <a class="fa fa-times" href="javascript:;"></a>
+                             </span>
+                    </header>
+                    <div class="panel-body">
+                        <div class="form">
+                            <!--search start-->
+                            <form id="searchUserform" th:action="@{/super/findUser}" method="post">
+                                <div class="input-group m-bot15">
+                                    <span class="input-group-btn">
+                                        <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                                      </span>
+                                    <input type="text" class="form-control" name="username" autofocus
+                                           placeholder="输入用户名..." minlength="1" maxlength="16"
+                                            th:value="${username}"/>
+                                </div>
+                            </form>
+                            <!--search end-->
+
+                            <form class="cmxform form-horizontal adminex-form" id="userRoleForm"
+                                  method="post" th:action="@{/super/updateUserRole}"
+                                  th:if="${superUserRole}" th:object="${superUserRole}">
+
+                                <input hidden name="username" th:value="*{username}" />
+                                <div class="form-group">
+                                    <label class="control-label col-xs-3 col-md-2">拥有角色</label>
+                                    <div class="col-xs-9 col-md-10">
+                                        <select class="form-control" name="roleIds" multiple size="15" >
+                                            <option th:each="role:*{roles}" th:value="${role.id}" th:text="${role.name}"
+                                                        th:attr="selected=${role.have}"></option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-xs-4 col-xs-offset-4">
+                                        <button class="btn btn-primary" type="submit">
+                                            <span class="glyphicon glyphicon-saved" aria-hidden="true"></span>
+                                            提交
+                                        </button>
+                                        <button class="btn btn-default" type="reset">
+                                            <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
+                                            重置
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                </section>
+            </div>
+
+            <div class="col-xs-12 col-md-6">
+                <section class="panel">
+                    <header class="panel-heading">
+                        角色关联权限
+                        <span class="tools pull-right">
+                            <a class="fa fa-chevron-down" href="javascript:;"></a>
+                            <a class="fa fa-times" href="javascript:;"></a>
+                         </span>
+                    </header>
+                    <div class="panel-body">
+                        <div class="form">
+
+                            <form id="searchRoleform" th:action="@{/super/findRole}" method="post">
+                                <div class="form-group m-bot15">
+                                        <select id="roles_select" class="form-control"
+                                                name="rolename" onchange="this.form.submit()">
+                                            <option value="0">请选择</option>
+                                            <option th:each="role:${roles}" th:value="${role.name}"
+                                                    th:text="${role.name}"></option>
+                                        </select>
+                                </div>
+                            </form>
+
+                            <form class="cmxform form-horizontal adminex-form" id="rolePermissioinForm"
+                                  method="post" th:action="@{/super/updateRolePermission}"
+                                  th:if="${superRolePermission}" th:object="${superRolePermission}">
+
+                                <input hidden name="rolename" th:value="*{rolename}"/>
+                                <div class="form-group">
+                                    <label class="control-label col-xs-3 col-md-2" th:text="*{rolename}">权限选择</label>
+                                    <div class="col-xs-9 col-md-10">
+                                        <select class="form-control" name="permissionIds" multiple size="15" >
+                                            <option th:each="permission:*{permissions}" th:value="${permission.id}"
+                                                    th:text="${permission.permit}"
+                                                    th:attr="selected=${permission.have}"></option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-xs-4 col-xs-offset-4">
+                                        <button class="btn btn-primary" type="submit">
+                                            <span class="glyphicon glyphicon-saved" aria-hidden="true"></span>
+                                            提交
+                                        </button>
+                                        <button class="btn btn-default" type="reset">
+                                            <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
+                                            重置
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+<div layout:fragment="javascript">
+    <script type="text/javascript">
+        $(function () {
+            //菜单的active
+            $('.custom-nav .nav-active').removeClass('nav-active');
+            $('.custom-nav .active').removeClass('active');
+            $("#userMenu").addClass("nav-active");
+            $("#superLi").addClass("active");
+        });
+    </script>
+    <p class="msg-block" th:if="${errorMap}">
+        <script th:if="${errorMap['msg']}" th:inline="javascript">
+            /*<![CDATA[*/
+            var msg = [[${errorMap['msg']}]] ;
+            $(function () {
+                myModalWarning(msg);
+            });
+            /*]]>*/
+        </script>
+    </p>
+</div>
+</body>
+</html>
